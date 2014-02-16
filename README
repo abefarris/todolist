@@ -5,3 +5,11 @@ http://www.playframework.com/documentation/2.2.x/JavaTodoList
 I will continue to modify it as a learning exercise.  The end goal will be a production ready web application.
 
 To run with in-memory database use play -Dconfig.resource=test.conf.  The default configuration uses postgreSql.
+
+Tasks to complete:
+
+1.  Prettify html with bootstrap
+2.  Add paging for task list view
+3.  Add secure social plugin for user enabled task lists
+4.  Add social linking similar to GitHub star for activity stream view
+5.  Add commenting system
