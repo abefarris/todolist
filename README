@@ -4,4 +4,4 @@ http://www.playframework.com/documentation/2.2.x/JavaTodoList
 
 I will continue to modify it as a learning exercise.  The end goal will be a production ready web application.
 
-To run with in-memory database use play -Dconfig.resource=local.conf.  The default configuration uses postgreSql.
+To run with in-memory database use play -Dconfig.resource=test.conf.  The default configuration uses postgreSql.
