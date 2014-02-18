@@ -16,15 +16,15 @@ public class IntegrationTest {
 	            public void invoke(TestBrowser browser) {
 	            	String testingValue = "testing";
 	                browser.goTo("http://localhost:3333");
-	                assertThat(browser.$("h1").first().getText()).isEqualTo("0 task(s)");
-	                browser.$("#label").text(testingValue);
-	                browser.$("input").click();
-	                assertThat(browser.$("h1").first().getText()).isEqualTo("1 task(s)");
-	                if (browser.$("li").getText().contains(testingValue)){
-	                	browser.$("li * input[value='Delete']").click();
+	                assertThat(browser.$("legend").first().getText()).isEqualTo("0 Task(s)");
+	                browser.$("input").text(testingValue);
+	                browser.$("button").click();
+	                assertThat(browser.$("legend").first().getText()).isEqualTo("1 Task(s)");
+	                if (browser.$(".todo-list-item").getText().contains(testingValue)){
+	                	browser.$(".list-group-item * button").click();
 	                }
 
-	                assertThat(browser.$("h1").first().getText()).isEqualTo("0 task(s)");
+	                assertThat(browser.$("legend").first().getText()).isEqualTo("0 Task(s)");
 	                
 	                
 	            }

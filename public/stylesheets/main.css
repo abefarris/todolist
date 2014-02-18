@@ -1,0 +1,17 @@
+body {
+  padding-top: 50px;
+}
+
+.todo-list-main {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.todo-list-item {
+	margin-right:50px;
+}
+
+.delete-task {
+	cursor: pointer; 
+	
+}
