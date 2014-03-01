@@ -1,42 +1,35 @@
-import static org.fest.assertions.Assertions.assertThat;
-import static play.test.Helpers.HTMLUNIT;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.running;
-import static play.test.Helpers.testServer;
+import org.junit.*;
 
-import org.fluentlenium.core.domain.FluentList;
-import org.fluentlenium.core.domain.FluentWebElement;
-import org.junit.Test;
+import play.test.*;
+import play.libs.F.*;
+import static play.test.Helpers.*;
+import static org.fest.assertions.Assertions.*;
 
-import play.libs.F.Callback;
-import play.test.TestBrowser;
 
 public class IntegrationTest {
+	
+	
+	 @Test
+	    public void test() {
+	        running(testServer(3333, fakeApplication()), HTMLUNIT, new Callback<TestBrowser>() {
+	            public void invoke(TestBrowser browser) throws InterruptedException {
+	            	String testingValue = "testing";
+	                browser.goTo("http://localhost:3333");
+	                assertThat(browser.$("legend").first().getText()).isEqualTo("0 Task(s)");
+	                
+	                browser.$("input").text(testingValue);
+	                browser.$("button").click();
+	                
+	                assertThat(browser.$("legend").first().getText()).isEqualTo("1 Task(s)");
+	                if (browser.$(".todo-list-item").getText().contains(testingValue)){
+	                	browser.$(".list-group-item * button").submit();
+	                }
 
-	@Test
-	public void test() {
-		running(testServer(3333, fakeApplication()), HTMLUNIT,
-				new Callback<TestBrowser>() {
-					public void invoke(TestBrowser browser) {
+	                assertThat(browser.$("legend").first().getText()).isEqualTo("0 Task(s)");
+	                
+	                
+	            }
+	        });
+	    }
 
-						String testingValue = "testing";
-						int testingCount = 100;
-						browser.goTo("http://localhost:3333");
-						
-						for (int i = 0; i < testingCount; i++) {
-							assertThat(browser.$("legend").first().getText())
-									.isEqualTo(i + " Task(s)");
-							browser.$("input").text(testingValue + i);
-							browser.$("button[name='addButton']").click();
-						}
-
-						FluentList<FluentWebElement> formList;
-
-						do {
-							formList = browser.$(".list-group-item form");
-							formList.get(0).submit();
-						} while (formList.size()>1);
-					}
-				});
-	}
 }
