@@ -1,12 +1,13 @@
-@(tasks: List[Task], taskForm: Form[Task])
+@(page: Task.Page, taskForm: Form[Task])
 
 @import helper._
+@import bootstrap._
 
 @main("Todo list") {
 	<div class="panel panel-default">
 		<div class="panel-heading">
 		   	@form(routes.Application.newTask()) {
-		   		<legend>@tasks.size() Task(s)</legend>
+		   		<legend>@page.getTotalRowCount() Task(s)</legend>
 				<div class="input-group">
 				<input type="text" 
 					   autofocus
@@ -21,7 +22,7 @@
 		  </div>
 		  <div class="panel-body">
 		    <ul class="list-group">
-		        @for(task <- tasks) {
+		        @for(task <- page.getList()) {
 		            <li class="list-group-item">
 		            @form(routes.Application.deleteTask(task.id)) {
 	            		<div class="pull-right">
@@ -38,5 +39,13 @@
 		    </ul>
 		  </div>
 	</div>
+	@pager(
+		page.hasPrev(), 
+		page.hasNext(), 
+		routes.Application.tasks(page.getPageIndex() - 1).url, 
+		routes.Application.tasks(page.getPageIndex() + 1).url, 
+		page.getDisplayXtoYofZ(), 
+		page.getPageIndex()
+	)
     
 }

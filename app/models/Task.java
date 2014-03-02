@@ -24,13 +24,28 @@ public class Task {
 
 	@Required
 	public String label;
+	
+	public static Page all() {
+		
+		return all(1, 10);
+		
+	}
 
-	public static List<Task> all() {
+	public static Page all(int page, int pageSize) {
+		
+        if(page < 1) page = 1;
+        Long total = (Long)JPA.em()
+            .createQuery("select count(t) from Task t")
+            .getSingleResult();
+        
 		@SuppressWarnings("unchecked")
-		List<Task> tasks = JPA.em()
-	            .createQuery("select t from Task t")
-	            .getResultList();
-		return tasks;
+		List<Task> data = JPA.em()
+			.createQuery("select t from Task t order by t.id desc")
+			.setFirstResult((page - 1) * pageSize)
+			.setMaxResults(pageSize)
+			.getResultList();
+			
+		return new Page(data, total, page, pageSize);
 	}
 
 	public static void create(Task task) {
@@ -47,5 +62,51 @@ public class Task {
 		 return ReflectionToStringBuilder.toString(this);
 		
 	}
+	
+    /**
+     * Used to represent a task page.
+     */	
+	
+	public static class Page {
+        private final int pageSize;
+        private final long totalRowCount;
+        private final int pageIndex;
+        private final List<Task> list;
+        
+        public Page(List<Task> data, long total, int page, int pageSize) {
+            this.list = data;
+            this.totalRowCount = total;
+            this.pageIndex = page;
+            this.pageSize = pageSize;
+        }
+        
+        public long getTotalRowCount() {
+            return totalRowCount;
+        }
+        
+        public int getPageIndex() {
+            return pageIndex;
+        }
+        
+        public List<Task> getList() {
+            return list;
+        }
+        
+        public boolean hasPrev() {
+            return pageIndex > 1;
+        }
+        
+        public boolean hasNext() {
+            return (totalRowCount/pageSize) >= pageIndex;
+        }
+        
+        public String getDisplayXtoYofZ() {
+            int start = ((pageIndex - 1) * pageSize + 1);
+            int end = start + Math.min(pageSize, list.size()) - 1;
+            return start + " to " + end + " of " + totalRowCount;
+        }
+        
+	}
+			
 
 }
