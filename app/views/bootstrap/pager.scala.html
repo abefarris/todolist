@@ -4,11 +4,11 @@
 <ul class="pager">
 
     @if(hasPrev) {
-        <li class="previous">
+        <li id="previous" class="previous">
             <a href="@prevLink">&larr; Previous</a>
         </li>
     } else {
-        <li class="previous disabled">
+        <li id="previous" class="previous disabled">
             <a>&larr; Previous</a>
         </li>
     }
@@ -18,11 +18,11 @@
     </li>    
    
     @if(hasNext) {
-        <li class="next">
+        <li id="next" class="next">
             <a href="@nextLink">Next &rarr;</a>
         </li>
     } else {
-        <li class="next disabled">
+        <li id="next" class="next disabled">
             <a>Next &rarr;</a>
         </li>
     }

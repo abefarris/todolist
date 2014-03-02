@@ -4,43 +4,61 @@ import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 import static play.test.Helpers.testServer;
 
-import org.fluentlenium.core.domain.FluentList;
-import org.fluentlenium.core.domain.FluentWebElement;
-import org.junit.Test;
+import java.util.Arrays;
+import java.util.Collection;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import pages.IndexPage;
 import play.libs.F.Callback;
 import play.test.TestBrowser;
+import data.TaskNames;
 
-
+@RunWith(Parameterized.class)
 public class IntegrationTest {
 
+	private final int testPort = 3333;
+	private final String testHost = "localhost";
+	
+	private String[] taskNames;
+	private String expected;
+	
+
+	public IntegrationTest(String taskNames[], String expected) {
+		this.taskNames = taskNames;
+		this.expected = expected;
+	}
+
+	@Parameterized.Parameters(name = "{index}: nextPagerEnabled {1}")
+	 public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+                { new TaskNames().getTaskNames(9), "next disabled"}, 
+                { new TaskNames().getTaskNames(10), "next"}, 
+           });
+	 }
+	 
 	@Test
 	public void test() {
-		running(testServer(3333, fakeApplication()), HTMLUNIT,
+		running(testServer(testPort, fakeApplication()), HTMLUNIT,
 				new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
 
-						String testingValue = "testing";
-						int testingCount = 10;
-						browser.goTo("http://localhost:3333");
+						IndexPage indexPage = new IndexPage(
+								browser.getDriver(), testHost, testPort, 0);
+						browser.goTo(indexPage);
+						indexPage.isAt();
 						
-						for (int i = 0; i < testingCount; i++) {
-
-							assertThat(browser.$("legend").first().getText())
-									.isEqualTo(i + " Task(s)");
-							browser.$("input").text(testingValue + i);
-							browser.$("button[name='addButton']").click();
-
+						for(int i = 1; i < taskNames.length ; i++) {
+							indexPage.submitForm(taskNames[i]);
+							assertThat(browser.pageSource()).contains(taskNames[i]);
 						}
+						
+						assertThat(indexPage.pagerNextClass()).isEqualTo(expected);
+						assertThat(indexPage.pagerNextClass()).isEqualTo(expected);
 
-						FluentList<FluentWebElement> formList;
-
-						do {
-							formList = browser.$(".list-group-item form");
-							formList.get(0).submit();
-						} while (formList.size()>1);
 					}
 				});
 	}
 }
-
