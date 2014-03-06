@@ -30,16 +30,16 @@ public class IndexPage extends FluentPage {
 		 submit("#addButton");
 	 }
 	 
-	 public FluentWebElement getPager(String id){
-		 return find(id).get(0);
+	 public FluentWebElement getPagerPrev(){
+		 return find("#previous a").get(0);
 	 }
 	 
-	 public String pagerPrevClass(){
-		 return getPager("#previous").getAttribute("class");
+	 public FluentWebElement getPagerNext(){
+		 return find("#next a").get(0);
 	 }
 	 
-	 public String pagerNextClass(){
-		 return getPager("#next").getAttribute("class");
+	 public String getPagerDisplay(){
+		 return find("#pagerCurrent").getText();
 	 }
 	 
 	 
