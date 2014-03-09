@@ -3,7 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskNames {
+public class TaskNameGenerator {
 	
 	private List<String> taskNames;
 	private final String testingValue = "testing";

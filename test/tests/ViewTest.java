@@ -12,7 +12,7 @@ import org.junit.Test;
 import pages.IndexPage;
 import play.libs.F.Callback;
 import play.test.TestBrowser;
-import data.TaskNames;
+import data.TaskNameGenerator;
 
 public class ViewTest {
 	
@@ -46,7 +46,7 @@ public class ViewTest {
 					browser.goTo(indexPage);
 					indexPage.isAt();
 					
-					String[] taskNames = new TaskNames().getTaskNames(1); 
+					String[] taskNames = new TaskNameGenerator().getTaskNames(1); 
 					
 					for(int i = 1; i < taskNames.length ; i++) {
 						indexPage.submitForm(taskNames[i]);
@@ -70,7 +70,7 @@ public class ViewTest {
 					browser.goTo(indexPage);
 					indexPage.isAt();
 					
-					String[] taskNames = new TaskNames().getTaskNames(10); 
+					String[] taskNames = new TaskNameGenerator().getTaskNames(10); 
 					
 					for(int i = 1; i < taskNames.length ; i++) {
 						indexPage.submitForm(taskNames[i]);
@@ -94,7 +94,7 @@ public class ViewTest {
 					browser.goTo(indexPage);
 					indexPage.isAt();
 					
-					String[] taskNames = new TaskNames().getTaskNames(15); 
+					String[] taskNames = new TaskNameGenerator().getTaskNames(15); 
 					
 					for(int i = 1; i < taskNames.length ; i++) {
 						indexPage.submitForm(taskNames[i]);
