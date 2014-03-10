@@ -1,0 +1,12 @@
+@(id: String, error: java.util.Map[String,java.util.List[play.data.validation.ValidationError]])
+<div class="input-group @if(error.get(id) != null){has-error}">
+<label id="addFieldLabel" class="control-label">
+	@if(error.get(id) != null){
+		@(error.get(id).get(0).message())
+	}
+	<span id="addFieldGroup" class="input-group-btn">
+		<input type="text" autofocus name="@(id)" class="form-control" placeholder="Task Name" id="@(id)"/>
+		<button id="addButton" class="btn btn-default" type="submit">Add</button>
+	</span>     
+</label>
+</div>

@@ -11,6 +11,8 @@ import javax.persistence.SequenceGenerator;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import play.Logger;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
@@ -23,12 +25,13 @@ public class Task {
 	public Long id;
 
 	@Required
-	public String label;
+	@MaxLength(value = 255)
+	@MinLength(value = 1)
+	public String taskName;
+	
 	
 	public static Page all() {
-		
 		return all(1, 10);
-		
 	}
 
 	public static Page all(int page, int pageSize) {

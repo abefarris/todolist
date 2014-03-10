@@ -14,10 +14,7 @@ import play.libs.F.Callback;
 import play.test.TestBrowser;
 import data.TaskNameGenerator;
 
-public class ViewTest {
-	
-	private final int testPort = 3333;
-	private final String testHost = "localhost";
+public class ViewTest extends TestBase {
 	
 	 
 	@Test
@@ -26,9 +23,7 @@ public class ViewTest {
 			new Callback<TestBrowser>() {
 				public void invoke(TestBrowser browser) {
 	
-					IndexPage indexPage = new IndexPage(
-							browser.getDriver(), testHost, testPort, 0);
-					browser.goTo(indexPage);
+					IndexPage indexPage = gotoIndexPage(browser);
 					indexPage.isAt();
 	
 				}
@@ -41,21 +36,15 @@ public class ViewTest {
 			new Callback<TestBrowser>() {
 				public void invoke(TestBrowser browser) {
 	
-					IndexPage indexPage = new IndexPage(
-							browser.getDriver(), testHost, testPort, 0);
-					browser.goTo(indexPage);
+					IndexPage indexPage = gotoIndexPage(browser);
 					indexPage.isAt();
 					
-					String[] taskNames = new TaskNameGenerator().getTaskNames(1); 
-					
-					for(int i = 1; i < taskNames.length ; i++) {
-						indexPage.submitForm(taskNames[i]);
-						assertThat(browser.pageSource()).contains(taskNames[i]);
-					}
+					submitNames(browser, indexPage, new TaskNameGenerator().getTaskNames(1));
 					
 					assertThat(indexPage.getPagerDisplay()).isEqualTo("1 to 1 of 1");
 		
 				}
+
 			});
 	}
 
@@ -65,17 +54,10 @@ public class ViewTest {
 			new Callback<TestBrowser>() {
 				public void invoke(TestBrowser browser) {
 	
-					IndexPage indexPage = new IndexPage(
-							browser.getDriver(), testHost, testPort, 0);
-					browser.goTo(indexPage);
+					IndexPage indexPage = gotoIndexPage(browser);
 					indexPage.isAt();
 					
-					String[] taskNames = new TaskNameGenerator().getTaskNames(10); 
-					
-					for(int i = 1; i < taskNames.length ; i++) {
-						indexPage.submitForm(taskNames[i]);
-						assertThat(browser.pageSource()).contains(taskNames[i]);
-					}
+					submitNames(browser, indexPage, new TaskNameGenerator().getTaskNames(10));
 					
 					assertThat(indexPage.getPagerDisplay()).isEqualTo("1 to 10 of 10");
 		
@@ -89,17 +71,10 @@ public class ViewTest {
 			new Callback<TestBrowser>() {
 				public void invoke(TestBrowser browser) {
 	
-					IndexPage indexPage = new IndexPage(
-							browser.getDriver(), testHost, testPort, 0);
-					browser.goTo(indexPage);
+					IndexPage indexPage = gotoIndexPage(browser);
 					indexPage.isAt();
-					
-					String[] taskNames = new TaskNameGenerator().getTaskNames(15); 
-					
-					for(int i = 1; i < taskNames.length ; i++) {
-						indexPage.submitForm(taskNames[i]);
-						assertThat(browser.pageSource()).contains(taskNames[i]);
-					}
+				
+					submitNames(browser, indexPage, new TaskNameGenerator().getTaskNames(15));
 					
 					assertThat(indexPage.getPagerDisplay()).isEqualTo("1 to 10 of 15");
 					

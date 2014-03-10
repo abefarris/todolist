@@ -15,5 +15,19 @@ body {
 
 .delete-task {
 	cursor: pointer; 
-	
+}
+
+#addFieldGroup {
+	padding-right:50px;	
+}
+
+#addFieldLabel {
+	width:100%;	
+}
+
+#addButton{
+	margin-left: 0px;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-left: none;
 }

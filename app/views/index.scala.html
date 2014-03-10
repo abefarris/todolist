@@ -8,37 +8,27 @@
 		<div class="panel-heading">
 		   	@form(routes.Application.newTask()) {
 		   		<legend>@page.getTotalRowCount() Task(s)</legend>
-				<div class="input-group">
-				<input type="text" 
-					   autofocus
-					   name="label" 
-				       class="form-control" 
-				       placeholder="Task Name" 
-				       id = "taskName"/>
-				  <span class="input-group-btn">
-				    <button id="addButton" class="btn btn-default" type="submit">Add</button>
-				  </span>
-				</div>
-			}	
-		  </div>
-		  <div class="panel-body">
-		    <ul class="list-group">
-		        @for(task <- page.getList()) {
-		            <li class="list-group-item">
-		            @form(routes.Application.deleteTask(task.id)) {
-	            		<div class="pull-right">
-		            		<button type="sumbit" class="btn btn-default btn-xs">
-	 							<span class="glyphicon glyphicon-remove"></span>
-	 						</button>
-	            		</div>
-					    <div class="todo-list-item">
-					     	<span>@task.label</span>
-					    </div>
-					 }
-		            </li>
-		        }
-		    </ul>
-		  </div>
+				@formgroup("taskName", taskForm.errors)
+			}
+		</div>
+		<div class="panel-body">
+		  <ul class="list-group">
+		      @for(task <- page.getList()) {
+		          <li class="list-group-item">
+		          @form(routes.Application.deleteTask(task.id)) {
+		         		<div class="pull-right">
+		          		<button type="sumbit" class="btn btn-default btn-xs">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+		         		</div>
+			    <div class="todo-list-item">
+			     	<span>@task.taskName</span>
+			    </div>
+			 }
+		          </li>
+		      }
+		  </ul>
+		</div>
 	</div>
 	@pager(
 		page.hasPrev(), 

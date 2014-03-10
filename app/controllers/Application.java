@@ -23,6 +23,7 @@ public class Application extends Controller {
 	public static Result newTask() {
 		Form<Task> filledForm = taskForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
+			System.out.println("error");
 			return badRequest(views.html.index.render(Task.all(), filledForm));
 		} else {
 			Task.create(filledForm.get());
